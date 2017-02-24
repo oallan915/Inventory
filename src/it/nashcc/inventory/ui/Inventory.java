@@ -138,7 +138,7 @@ public class Inventory {
 		public InventoryPanel() {
 			super();
 
-			frame = new JFrame();
+			frame = new JFrame();  
 			frame.setResizable(false);
 			frame.setBounds(100, 100, 773, 724);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

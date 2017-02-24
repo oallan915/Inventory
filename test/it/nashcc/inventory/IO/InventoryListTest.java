@@ -71,7 +71,7 @@ public class InventoryListTest {
 		List<Computers> c;
 		try {
 			c = InventoryList.readInventory("testfiles/Inventory.csv");
-			assertEquals(2, c.size()); 
+			assertEquals(4, c.size()); 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
