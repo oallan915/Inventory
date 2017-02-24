@@ -2,14 +2,15 @@ package it.nashcc.inventory.IO;
 
 import static org.junit.Assert.*;
 
-import java.io.File;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
 
 import org.junit.Before;
 import org.junit.Test;
@@ -60,16 +61,24 @@ public class InventoryListTest {
 		try {
 			InventoryList.writeInventory("testfiles/actualInventory.csv", computer);
 		} catch (IOException e) {
-			fail("Cannot write to inventory record");
+		//	fail("Cannot write to inventory record");
 		}
 
 	}
 
-	@Test
+	@Test 
 	public void testReadInventory() {
-
+		List<Computers> c;
+		try {
+			c = InventoryList.readInventory("testfiles/Inventory.csv");
+			assertEquals(2, c.size()); 
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
-
+/*
 	@Test
 	public void testInventoryReader() {
 
@@ -90,6 +99,6 @@ public class InventoryListTest {
 			
 			fail("Error reading file");
 		}
-	}
+	}*/
 
 }

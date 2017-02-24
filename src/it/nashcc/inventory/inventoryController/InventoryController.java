@@ -5,7 +5,10 @@ package it.nashcc.inventory.inventoryController;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
+
+
+
 
 import it.nashcc.inventory.IO.InventoryList;
 import it.nashcc.inventory.computer.Computers;
@@ -16,11 +19,11 @@ import it.nashcc.inventory.computer.Computers;
  */ 
 public class InventoryController {
 
-	private List<Computers> computer;
+	private ArrayList<Computers> computer;
 
 	/**
-	 * 
-	 */
+	 *  
+	 */ 
 	public InventoryController(String fileName) {
 		// TODO Auto-generated constructor stub
 		try {
@@ -30,7 +33,10 @@ public class InventoryController {
 			throw new IllegalArgumentException();
 		}
 	}
-
+	/**
+	 * 
+	 * @return
+	 */
 	public String[][] getComputers() {
 		String[][] a = new String[computer.size()][4];
 
@@ -52,29 +58,35 @@ public class InventoryController {
 			throw new IllegalArgumentException("the file cannot be saved.");
 		}
 	}
-
-	public boolean addComputer(String assetId, String serialNumber) {
-		Computers c = null;
-
+	/**
+	 * 
+	 * @param assetId
+	 * @param serialNumber
+	 * @return
+	 */
+	public boolean addComputer(String name, String model, String assetId, String serialNumber) {
+		Computers c = new Computers(name, model, assetId, serialNumber);
 		boolean add = false;
-
 		for (int i = 0; i < computer.size(); i++) {
-			c = computer.get(i);
-
+		 c = computer.get(i); 
+ 
 			if (c.getAssetId().equals(assetId) || c.getSerialNumber().equals(serialNumber)) {
-				throw new IllegalArgumentException(
-						c.getName() + " " + c.getAssetId() + " machine is already in the list");
-			} else {
-
 				add = true;
 				computer.add(c);
+			} else {
+				
 			}
-
+			
+			
 		}
 
 		return add;
 	}
-	
+	/**
+	 * 
+	 * @param idx
+	 * @return
+	 */
 	public boolean removeInventory(int idx) {
 		
 		boolean delete = false;
@@ -82,7 +94,7 @@ public class InventoryController {
 		for(int i = 0; i < computer.size(); i++) {
 			
 			Computers c = computer.get(i);
-			
+			 
 			if(i == idx) {
 				delete = true;
 				computer.remove(c);
@@ -91,14 +103,17 @@ public class InventoryController {
 		
 		return delete;
 	}
-	
-	public Computers getAssetId(String assetId) {
+	/**
+	 * 
+	 * @return
+	 */
+	public Computers getAssetId() {
 		Computers c = null;
-		String assetTag = "";
+	
 		for (int i = 0; i < computer.size(); i++) {
 			c = computer.get(i);
 			
-			if(c.getAssetId().equals(assetId)) {
+			if(c.getAssetId().equals(this.getAssetId())) {
 				return c;
 			}
 		}
@@ -106,6 +121,44 @@ public class InventoryController {
 		
 		return null;
 		
+	}
+	/**
+	 * 
+	 * @return 
+	 */
+	public Computers getSerialNumber() {
+		Computers c = null;
+	
+		for (int i = 0; i < computer.size(); i++) {
+			c = computer.get(i);
+			
+			if(c.getSerialNumber().equals(this.getSerialNumber())) {
+				return c;
+			}
+		}
+		
+		
+		return null;
+		
+	}
+	/**
+	 * 
+	 * @param assetId
+	 * @param serial
+	 * @return
+	 */
+	public Computers getListComputers(String assetId, String serial) {
+
+
+		for (int i = 0; i < computer.size(); i++) {
+			Computers c = computer.get(i);
+			if(assetId.equals(c.getAssetId()) && serial.equals(c.getSerialNumber())) {
+			
+				return c;
+
+			}
+		}
+	return null;
 	}
 	
 

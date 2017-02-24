@@ -25,9 +25,9 @@ public class InventoryList {
 
 			for (int i = 0; i < computers.size(); i++) {
 				fileWriter.println(computers.get(i));
-				
+ 
 			}
-			fileWriter.close(); 
+			fileWriter.close();
 		}
 
 	}
@@ -38,19 +38,20 @@ public class InventoryList {
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	public static List<Computers> readInventory(String fileName) throws FileNotFoundException {
+	public static ArrayList<Computers> readInventory(String fileName) throws FileNotFoundException {
 
-		Scanner fileReader = new Scanner(new File(fileName));
+		File file = new File(fileName);
+		Scanner fileReader = new Scanner(file);
 
-		List<Computers> computers = new ArrayList<Computers>();
+		ArrayList<Computers> computers = new ArrayList<Computers>();
 
-		while (fileReader.hasNext()) {
+		while (fileReader.hasNextLine()) { 
 
 			try {
 
 				Computers computer = inventoryReader(fileReader.nextLine());
 
-				boolean isDuplicate = false;
+				boolean isDuplicate = false;  
 
 				for (int i = 0; i < computers.size(); i++) {
 
@@ -72,7 +73,11 @@ public class InventoryList {
 			}
 
 		}
+		
 		fileReader.close();
+
+		
+		
 		return computers;
 
 	}
@@ -80,15 +85,15 @@ public class InventoryList {
 	public static Computers inventoryReader(String nextLine) throws FileNotFoundException {
 
 		Scanner reader = new Scanner(nextLine);
-		Computers computer = null;
+		Computers computer = null; 
 
-		reader.useDelimiter(",");
-		try {
+		//reader.useDelimiter(",");
+		try { 
 			String computerName = reader.next();
 			String modelName = reader.next();
 			String assetNumber = reader.next();
 			String serialNumber = reader.next();
-
+ 
 			computer = new Computers(computerName, modelName, assetNumber, serialNumber);
 
 		} catch (NoSuchElementException e) {
@@ -97,6 +102,13 @@ public class InventoryList {
 		}
 		reader.close();
 		return computer;
+
+	}
+
+	@Override
+	public String toString() {
+
+		return null;
 
 	}
 

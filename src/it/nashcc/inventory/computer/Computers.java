@@ -15,7 +15,7 @@ public class Computers {
 	
 	private String serialNumber;
 	/**
-	 * 
+	 *  
 	 */
 	public Computers(String name, String model, String assetId, String serialNumber) {
 	
@@ -112,9 +112,9 @@ public class Computers {
 
 	@Override
 	public String toString() {
-		return  name + "," + model + "," + assetId + ","
+		return  name + "        " + model + "        " + assetId + "        "
 				+ serialNumber;
-	}
+	} 
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -1,4 +1,4 @@
-package it.nashcc.inventory.computer;
+/*package it.nashcc.inventory.computer;
 
 import static org.junit.Assert.*;
 
@@ -102,7 +102,7 @@ public class ComputersTest {
 
 	@Test
 	public void testSetModel() {
-
+ 
 	}
 
 	@Test
@@ -145,3 +145,4 @@ public class ComputersTest {
 	}
 
 }
+*/
