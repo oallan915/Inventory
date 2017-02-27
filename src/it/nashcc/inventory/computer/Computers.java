@@ -14,10 +14,12 @@ public class Computers {
 	private String assetId;
 	
 	private String serialNumber;
+	
+	private String arcutecture;
 	/**
 	 *  
 	 */
-	public Computers(String name, String model, String assetId, String serialNumber) {
+	public Computers(String name, String model, String assetId, String serialNumber, String arcutecture) {
 	
 		setName(name);
 		setModel(model);
@@ -109,11 +111,21 @@ public class Computers {
 		this.serialNumber = serialNumber;
 	}
 	
+	public String getArcutecture() {
+		return arcutecture;
+	}
+	public void setArcutecture(String arcutecture) {
+		
+		if(arcutecture == null || arcutecture.isEmpty()){
+			throw new IllegalArgumentException();
+		}
+		this.arcutecture = arcutecture;
+	}
 
 	@Override
 	public String toString() {
-		return  name + "        " + model + "        " + assetId + "        "
-				+ serialNumber;
+		return  name + "        " + arcutecture + "        " + assetId + "        "
+				+ serialNumber + "        " + model;
 	} 
 	@Override
 	public int hashCode() {
@@ -156,6 +168,7 @@ public class Computers {
 			return false;
 		return true;
 	}
+
 
 	
 

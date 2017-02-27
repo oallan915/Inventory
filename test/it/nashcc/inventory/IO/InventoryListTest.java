@@ -50,12 +50,12 @@ public class InventoryListTest {
 		List<Computers> computer = new ArrayList<Computers>();
 		
 	
-		computer.add(new Computers("HP", "GX520", "856999999", "GXADF000"));
-		computer.add(new Computers("DELL", "GX520", "856888888", "GXADF000"));
-		computer.add(new Computers("HP", "GX755", "123546789", "adfae"));
-		computer.add(new Computers("HP", "GX760", "356358999", "8538"));
-		computer.add(new Computers("DELL", "3040", "24dg99999", "8364"));
-		computer.add(new Computers("DELL", "GX755", "bvnmj9999", "4125"));
+		computer.add(new Computers("HP", "GX520", "856999999", "GXADF000", "D"));
+		computer.add(new Computers("DELL", "GX520", "856888888", "GXADF000", "D"));
+		computer.add(new Computers("HP", "GX755", "123546789", "adfae", "D"));
+		computer.add(new Computers("HP", "GX760", "356358999", "8538", "D"));
+		computer.add(new Computers("DELL", "3040", "24dg99999", "8364", "D"));
+		computer.add(new Computers("DELL", "GX755", "bvnmj9999", "4125", "D"));
 		
 
 		try {
