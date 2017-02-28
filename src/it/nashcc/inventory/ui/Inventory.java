@@ -15,7 +15,6 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -26,7 +25,6 @@ import javax.swing.JDialog;
 import javax.swing.DefaultListModel;
 
 import java.awt.Component;
-
 
 import javax.swing.Box;
 import java.awt.Dimension;
@@ -48,16 +46,23 @@ import java.awt.ScrollPane;
 public class Inventory {
 
 	private JFrame frame;
-	
+
 	private JComboBox<String> combo1 = new JComboBox<String>();
 	
+	private JComboBox<String> combo2 = new JComboBox<String>();
+	
+	private JComboBox<String> coName = new JComboBox<String>();
+
 	private JTextField textField = new JTextField();
-	
-	private JTextField textField_1 = new JTextField();
-	
+
+	private JTextField txtModel = new JTextField();
+
 	private JTextField textField_2 = new JTextField();
-	
+
 	private JTextField textField_3;
+
+	
+	private JTextField txtRoom = new JTextField();
 
 	private JButton btnAddButton;
 
@@ -65,7 +70,13 @@ public class Inventory {
 
 	private JButton btnRemoveButton;
 
+	private JButton btnReAddButton;
+
 	private JList<String> textArea = new JList<String>();
+
+	private JList<String> removeArea = new JList<String>();
+
+	private DefaultListModel<String> removeList = new DefaultListModel<String>();
 
 	private DefaultListModel<String> model = new DefaultListModel<String>();
 
@@ -73,9 +84,9 @@ public class Inventory {
 
 	private List<Computers> computers = new ArrayList<Computers>();
 
-	private Computers computer;
+	private List<Computers> removedComputers = new ArrayList<Computers>();
 
-	private JPanel panel;
+	private Computers computer;
 
 	/**
 	 * Launch the application.
@@ -102,6 +113,7 @@ public class Inventory {
 		// Construct the underlying model object
 		try {
 			new InventoryController("testfiles/Inventory.csv");
+			new InventoryController("testfiles/RemovedAsset.csv");
 		} catch (IllegalStateException e) {
 			System.exit(1);
 		}
@@ -111,11 +123,6 @@ public class Inventory {
 		// Create JPanel that will hold the rest of the GUI information.
 		// The JPanel utilizes a CardLayout, which stacks several different
 		// JPanels. User actions lead to switching which "Card" is visible.
-		panel = new JPanel();
-		
-		
-	
-		
 
 		// Add panel to the container
 
@@ -140,10 +147,9 @@ public class Inventory {
 
 			frame = new JFrame();
 			frame.setResizable(false);
-			frame.setBounds(100, 100, 773, 724);
+			frame.setBounds(1000, 500, 1000, 1000);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.getContentPane().setLayout(null);
-
 
 			Component rigidArea = Box.createRigidArea(new Dimension(20, 20));
 			rigidArea.setBounds(-10003, -10025, 767, 696);
@@ -165,60 +171,84 @@ public class Inventory {
 			rigidArea_1.setBounds(-10003, -10025, 767, 696);
 			frame.getContentPane().add(rigidArea_1);
 
-			JLabel lblNewLabel = new JLabel("Machine Name");
-			lblNewLabel.setBounds(30, 55, 85, 14);
-			frame.getContentPane().add(lblNewLabel);
+			JLabel lblComputerName = new JLabel("Machine Name");
+			lblComputerName.setBounds(30, 45, 85, 14);
+			frame.getContentPane().add(lblComputerName);
+			
+			JLabel lblArcutecture = new JLabel("Arcutecture");
+			lblArcutecture.setBounds(30, 80, 85, 14);
+			frame.getContentPane().add(lblArcutecture);
 
-			JLabel lblNewLabel_1 = new JLabel("Machine Model");
-			lblNewLabel_1.setBounds(30, 94, 98, 34);
-			frame.getContentPane().add(lblNewLabel_1);
+			JLabel lblModel = new JLabel("Model Number");
+			lblModel.setBounds(30, 115, 98, 34);
+			frame.getContentPane().add(lblModel);
 
-			JLabel lblNewLabel_2 = new JLabel("Asset Tag Number");
-			lblNewLabel_2.setBounds(30, 150, 98, 34);
-			frame.getContentPane().add(lblNewLabel_2);
+			JLabel lblAsset = new JLabel("Asset Tag");
+			lblAsset.setBounds(30, 150, 98, 34);
+			frame.getContentPane().add(lblAsset);
 
-			JLabel lblNewLabel_3 = new JLabel("Serial Number");
-			lblNewLabel_3.setBounds(30, 180, 85, 45);
-			frame.getContentPane().add(lblNewLabel_3);
+			JLabel lblSerialNumber = new JLabel("Serial Number");
+			lblSerialNumber.setBounds(30, 180, 85, 45);
+			frame.getContentPane().add(lblSerialNumber);
 
 			JLabel lblNashItInventory = new JLabel(" Nash IT Inventory");
 			lblNashItInventory.setBounds(561, 71, 127, 74);
 			frame.getContentPane().add(lblNashItInventory);
 
-			JLabel lblName = new JLabel("Name");
-			lblName.setBounds(20, 233, 85, 14);
-			frame.getContentPane().add(lblName);
+			JLabel lblNameList = new JLabel("Name");
+			lblNameList.setBounds(20, 233, 85, 14);
+			frame.getContentPane().add(lblNameList);
 
-			JLabel lblModel = new JLabel("Model");
-			lblModel.setBounds(70, 233, 85, 14);
-			frame.getContentPane().add(lblModel);
+			JLabel lblModelList = new JLabel("Model");
+			lblModelList.setBounds(70, 233, 85, 14);
+			frame.getContentPane().add(lblModelList);
 
-			JLabel lblAsset = new JLabel("Asset");
-			lblAsset.setBounds(145, 233, 85, 14);
-			frame.getContentPane().add(lblAsset);
+			JLabel lblAssetList = new JLabel("Asset");
+			lblAssetList.setBounds(145, 233, 85, 14);
+			frame.getContentPane().add(lblAssetList);
 
-			JLabel lblSerial = new JLabel("Serial");
-			lblSerial.setBounds(245, 233, 85, 14);
-			frame.getContentPane().add(lblSerial);
-			
+			JLabel lblSerialList = new JLabel("Serial");
+			lblSerialList.setBounds(245, 233, 85, 14);
+			frame.getContentPane().add(lblSerialList);
+
 			JLabel lblRoom = new JLabel("2218");
 			lblRoom.setBounds(145, 450, 85, 14);
 			frame.getContentPane().add(lblRoom);
 
-			
-			
-			combo1.setBounds(160, 52, 86, 20);
+			JLabel lblmove = new JLabel("Room");
+			lblmove.setBounds(400, 220, 85, 14);
+			frame.getContentPane().add(lblmove);
+
+			combo1.setBounds(160, 45, 86, 20);
 			frame.getContentPane().add(combo1);
-			
-			combo1.addItem("DELL");//.setToolTipText("Cannot be empty.\nOnly accepts 4 characters");
+
+			combo1.addItem("DELL");
 			combo1.addItem("HP");
 			combo1.addItem("SURFACE");
 			combo1.addItem("SHARP");
 			combo1.addItem("LENNOVO");
+			
+			combo2.setBounds(160, 80, 86, 20);
+			frame.getContentPane().add(combo2);
+			combo2.addItem("DESK");
+			combo2.addItem("LAP");
+			combo2.addItem("SURF");
+			combo2.addItem("PROJ");
+			combo2.addItem("OTH");
 
-			textField_1.setBounds(160, 108, 86, 20);
-			frame.getContentPane().add(textField_1);
-			textField_1.setToolTipText("Cannot be empty.\nOnly accepts 4 characters");
+			coName.setBounds(500, 80, 86, 20);
+			frame.getContentPane().add(coName);
+			coName.addItem("BRYAN");;
+			coName.addItem("DAVID");
+			coName.addItem("FRED");
+			coName.addItem("OMAR");
+			coName.addItem("TIM");
+			coName.addItem("TYRONE");
+			
+			
+			txtModel.setBounds(160, 120, 86, 20);
+			frame.getContentPane().add(txtModel);
+			txtModel.setToolTipText("Cannot be empty.\nOnly accepts 4 characters");
 
 			textField_2.setBounds(160, 157, 86, 20);
 			frame.getContentPane().add(textField_2);
@@ -228,27 +258,44 @@ public class Inventory {
 			textField_3.setBounds(160, 193, 86, 20);
 			frame.getContentPane().add(textField_3);
 
+			txtRoom = new JTextField();
+			txtRoom.setBounds(450, 220, 86, 20);
+			frame.getContentPane().add(txtRoom);
+			
+
 			btnAddButton = new JButton("ADD");
 
 			btnAddButton.setBounds(276, 52, 86, 20);
 			frame.getContentPane().add(btnAddButton);
+
+			btnReAddButton = new JButton("<=MOVE");
+			btnReAddButton.setBounds(330, 300, 86, 20);
+			frame.getContentPane().add(btnReAddButton);
 
 			btnSaveButton = new JButton("SAVE");
 
 			btnSaveButton.setBounds(276, 108, 86, 20);
 			frame.getContentPane().add(btnSaveButton);
 
-			btnRemoveButton = new JButton("Remove");
+			btnRemoveButton = new JButton("REMOVE");
 
 			btnRemoveButton.setBounds(276, 157, 86, 20);
 			frame.getContentPane().add(btnRemoveButton);
 
-			frame.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { combo1, textField_1,
-					textField_2, textField_3, btnAddButton, btnSaveButton, btnRemoveButton }));
+			frame.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { combo1, txtModel, textField_2,
+					textField_3, btnAddButton, btnSaveButton, btnRemoveButton }));
 			try {
 
 				computers = InventoryList.readInventory("testfiles/Inventory.csv");
 
+				removedComputers = InventoryList.readInventory("testfiles/RemovedAsset.csv");
+
+				for (int i = 0; i < removedComputers.size(); i++) {
+					computer = removedComputers.get(i);
+					removeList.addElement(computer.toString());
+
+				}
+				
 				for (int i = 0; i < computers.size(); i++) {
 					computer = computers.get(i);
 					model.addElement(computer.toString());
@@ -264,11 +311,16 @@ public class Inventory {
 			frame.add(scrollBar);
 			textArea.setBounds(21, 251, 300, 200);
 			frame.getContentPane().add(textArea);
-			
+
 			textArea.setModel(model);
 
-			textField_2.setText("856"); 
+			removeArea.setBounds(440, 251, 310, 200);
+			frame.getContentPane().add(removeArea);
+			removeArea.setModel(removeList);
+			
+			textField_2.setText("856");
 			btnAddButton.addActionListener(this);
+			btnReAddButton.addActionListener(this);
 			btnRemoveButton.addActionListener(this);
 			btnSaveButton.addActionListener(this);
 		}
@@ -278,19 +330,28 @@ public class Inventory {
 		public void actionPerformed(ActionEvent e) {
 
 			int addButtonClick = 0;
-
+			int removeAreaIndex = removeArea.getSelectedIndex();
 			String fileName = "testfiles/Inventory.csv";
+
 			File file = new File("testfiles/Inventory.csv");
+			
+			String removeAsset = "testfiles/RemovedAsset.csv";
+			
+			File removeAssets = new File("testfiles/RemovedAsset.csv");
 
 			String name = combo1.getSelectedItem() + "";
-			String modelC = textField_1.getText().toUpperCase();
+			String arcutecture = combo2.getSelectedItem() + "";
+			String modelC = txtModel.getText().toUpperCase();
 			String assetId = textField_2.getText().toUpperCase();
 			String serial = textField_3.getText().toUpperCase();
+			
+			String location = txtRoom.getText().toUpperCase();
 
 			try {
-				name = name.substring(0, 4);
+
 				modelC = modelC.substring(0, 4);
 				assetId = assetId.substring(0, 9);
+
 			} catch (StringIndexOutOfBoundsException e1) {
 
 			}
@@ -299,11 +360,12 @@ public class Inventory {
 				addButtonClick = addButtonClick + 1;
 
 				try {
-					computer = new Computers(name, modelC, assetId, serial);
+					computer = new Computers(name, modelC, assetId, serial, arcutecture);
 
 					if (computers.add(computer)) {
 						model.addElement(computer.toString());
 						textArea.setModel(model);
+
 					} else {
 						JOptionPane.showMessageDialog(frame, "Asset is already added", " Error",
 								JOptionPane.ERROR_MESSAGE);
@@ -315,7 +377,7 @@ public class Inventory {
 
 				}
 				textField.setText("");
-				textField_1.setText("");
+				txtModel.setText("");
 				textField_2.setText("856");
 				textField_3.setText("");
 			}
@@ -323,7 +385,7 @@ public class Inventory {
 			if (e.getSource() == btnRemoveButton) {
 
 				textField.setText("");
-				textField_1.setText("");
+				txtModel.setText("");
 				textField_2.setText("856");
 				textField_3.setText("");
 
@@ -338,9 +400,11 @@ public class Inventory {
 					Computers com = computers.get(index);
 
 					computers.remove(com);
-					System.out.println(computers.toString());
-					System.out.println(computers.size());
 					model.remove(index);
+
+					removedComputers.add(com);
+					removeList.addElement(com.toString());
+					removeArea.setModel(removeList);
 
 					textArea.ensureIndexIsVisible(model.size());
 					textArea.setModel(model);
@@ -352,14 +416,21 @@ public class Inventory {
 			if (e.getSource() == btnSaveButton) {
 
 				try {
+
 					file.delete();
+					removeAssets.delete();
 					JOptionPane optionPane = new JOptionPane("Save file?", JOptionPane.QUESTION_MESSAGE,
 							JOptionPane.YES_NO_OPTION);
-					JDialog dialog = optionPane.createDialog(getParent(), "Manual Creation");
+					
+					JDialog dialog = optionPane.createDialog(getParent(), "Save");
+
 					dialog.setVisible(true);
 
 					try {
 						InventoryList.writeInventory(fileName, computers);
+
+						InventoryList.writeInventory(removeAsset, removedComputers);
+
 					} catch (IOException e1) {
 
 						e1.printStackTrace();
@@ -369,6 +440,27 @@ public class Inventory {
 				} catch (NullPointerException e6) {
 
 					textField_2.setText("856");
+
+				}
+
+			}
+			if (e.getSource() == btnReAddButton) {
+
+				try {
+					Computers com = removedComputers.get(removeAreaIndex);
+
+					removedComputers.remove(com);
+					removeList.remove(removeAreaIndex);
+
+					computers.add(com);
+					model.addElement(com.toString());
+					textArea.setModel(model);
+
+					removeArea.setModel(removeList);
+
+				} catch (ArrayIndexOutOfBoundsException e2) {
+
+				} catch (IndexOutOfBoundsException e2) {
 
 				}
 

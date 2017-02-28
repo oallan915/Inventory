@@ -38,7 +38,7 @@ public class InventoryController {
 	 * @return
 	 */
 	public String[][] getComputers() {
-		String[][] a = new String[computer.size()][4];
+		String[][] a = new String[computer.size()][5];
 
 		for (int i = 0; i < computer.size(); i++) {
 			Computers c = computer.get(i);
@@ -46,6 +46,7 @@ public class InventoryController {
 			a[i][1] = c.getModel();
 			a[i][2] = c.getAssetId();
 			a[i][3] = c.getSerialNumber();
+			a[i][4] = c.getArcutecture();
 
 		}
 		return a;
@@ -64,8 +65,8 @@ public class InventoryController {
 	 * @param serialNumber
 	 * @return
 	 */
-	public boolean addComputer(String name, String model, String assetId, String serialNumber) {
-		Computers c = new Computers(name, model, assetId, serialNumber);
+	public boolean addComputer(String name, String model, String assetId, String serialNumber, String arcutecture) {
+		Computers c = new Computers(name, model, assetId, serialNumber, arcutecture);
 		boolean add = false;
 		for (int i = 0; i < computer.size(); i++) {
 		 c = computer.get(i); 

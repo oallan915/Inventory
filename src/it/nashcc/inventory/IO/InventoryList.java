@@ -93,8 +93,9 @@ public class InventoryList {
 			String modelName = reader.next();
 			String assetNumber = reader.next();
 			String serialNumber = reader.next();
+			String arcutecture = reader.next();
  
-			computer = new Computers(computerName, modelName, assetNumber, serialNumber);
+			computer = new Computers(computerName, modelName, assetNumber, serialNumber, arcutecture);
 
 		} catch (NoSuchElementException e) {
 			reader.close();
