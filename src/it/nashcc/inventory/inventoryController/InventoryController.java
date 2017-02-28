@@ -19,7 +19,7 @@ import it.nashcc.inventory.computer.Computers;
  */ 
 public class InventoryController {
 
-	private ArrayList<Computers> computer;
+	private  ArrayList<Computers> computer;
 
 	/**
 	 *  
@@ -38,15 +38,16 @@ public class InventoryController {
 	 * @return
 	 */
 	public String[][] getComputers() {
-		String[][] a = new String[computer.size()][5];
+		String[][] a = new String[computer.size()][6];
 
 		for (int i = 0; i < computer.size(); i++) {
-			Computers c = computer.get(i);
+			Computers c = computer.get(i);  
 			a[i][0] = c.getName();
 			a[i][1] = c.getModel();
 			a[i][2] = c.getAssetId();
 			a[i][3] = c.getSerialNumber();
 			a[i][4] = c.getArcutecture();
+			a[i][5] = c.getiTmember();
 
 		}
 		return a;
@@ -65,8 +66,8 @@ public class InventoryController {
 	 * @param serialNumber
 	 * @return
 	 */
-	public boolean addComputer(String name, String model, String assetId, String serialNumber, String arcutecture) {
-		Computers c = new Computers(name, model, assetId, serialNumber, arcutecture);
+	public boolean addComputer(String name, String model, String assetId, String serialNumber, String arcutecture, String iTmember, String room) {
+		Computers c = new Computers(name, model, assetId, serialNumber, arcutecture, iTmember, room);
 		boolean add = false;
 		for (int i = 0; i < computer.size(); i++) {
 		 c = computer.get(i); 
@@ -74,11 +75,7 @@ public class InventoryController {
 			if (c.getAssetId().equals(assetId) || c.getSerialNumber().equals(serialNumber)) {
 				add = true;
 				computer.add(c);
-			} else {
-				
-			}
-			
-			
+			} 
 		}
 
 		return add;

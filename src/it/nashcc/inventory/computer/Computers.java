@@ -2,30 +2,41 @@ package it.nashcc.inventory.computer;
 
 /**
  * This class will construct a computer
+ * 
  * @author oallan915
  *
  */
 public class Computers {
-	
+
 	private String name;
-	
+
 	private String model;
-	
+
 	private String assetId;
-	
+
 	private String serialNumber;
-	
+
 	private String arcutecture;
+
+	private String iTmember;
+	
+	private String room;
+
 	/**
 	 *  
 	 */
-	public Computers(String name, String model, String assetId, String serialNumber, String arcutecture) {
-	
+	public Computers(String name, String model, String assetId, String serialNumber, String arcutecture,
+			String iTmember, String room) {
+
 		setName(name);
 		setModel(model);
 		setAssetId(assetId);
 		setSerialNumber(serialNumber);
+		setArcutecture(arcutecture);
+		setiTmember(iTmember);
+		setRoom(room);
 	}
+
 	/**
 	 * 
 	 * @return
@@ -33,16 +44,18 @@ public class Computers {
 	public String getName() {
 		return name;
 	}
+
 	/**
 	 * 
 	 * @param name
 	 */
 	public void setName(String name) {
-		if(name == null || name.isEmpty()) {
+		if (name == null || name.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
 		this.name = name;
 	}
+
 	/**
 	 * 
 	 * @return
@@ -50,42 +63,46 @@ public class Computers {
 	public String getModel() {
 		return model;
 	}
+
 	/**
 	 * 
 	 * @param model
 	 */
 	public void setModel(String model) {
-		
-		if(model == null || model.isEmpty()) {
+
+		if (model == null || model.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
 		this.model = model;
 	}
+
 	/**
 	 * 
 	 * @return
 	 */
 	public String getAssetId() {
-		
+
 		return assetId;
 	}
+
 	/**
 	 * 
 	 * @param assetId
 	 */
 	public void setAssetId(String assetId) {
-		if(assetId == null) {
+		if (assetId == null) {
 			throw new IllegalArgumentException();
 		}
-		if(assetId.isEmpty()) {
+		if (assetId.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
-		
-		if(assetId.length() != 9) {
+
+		if (assetId.length() != 9) {
 			throw new IllegalArgumentException();
 		}
 		this.assetId = assetId;
 	}
+
 	/**
 	 * 
 	 * @return
@@ -93,43 +110,42 @@ public class Computers {
 	public String getSerialNumber() {
 		return serialNumber;
 	}
+
 	/**
 	 * 
 	 * @param serialNumberl
 	 */
 	public void setSerialNumber(String serialNumber) {
-		
-		if(serialNumber == null) {
+
+		if (serialNumber == null) {
 			throw new IllegalArgumentException();
 		}
-		if(serialNumber.isEmpty()) {
+		if (serialNumber.isEmpty()) {
 			throw new IllegalArgumentException();
 		}
-		if(serialNumber.length() <= 3) {
+		if (serialNumber.length() <= 3) {
 			throw new IllegalArgumentException();
 		}
 		this.serialNumber = serialNumber;
 	}
-	
+
 	public String getArcutecture() {
 		return arcutecture;
 	}
+
 	public void setArcutecture(String arcutecture) {
-		
-		if(arcutecture == null || arcutecture.isEmpty()){
-			throw new IllegalArgumentException();
-		}
+
 		this.arcutecture = arcutecture;
 	}
 
 	@Override
 	public String toString() {
-		return  name + "        " + arcutecture + "        " + assetId + "        "
-				+ serialNumber + "        " + model;
-	} 
+		return name + "," + arcutecture + ","  + model + ","+ assetId + "," + serialNumber + "," + iTmember + "," + room;
+	}
+
 	@Override
 	public int hashCode() {
-		final int prime = 31;
+		final int prime = 31; 
 		int result = 1;
 		result = prime * result + ((assetId == null) ? 0 : assetId.hashCode());
 		result = prime * result + ((model == null) ? 0 : model.hashCode());
@@ -137,6 +153,7 @@ public class Computers {
 		result = prime * result + ((serialNumber == null) ? 0 : serialNumber.hashCode());
 		return result;
 	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -169,11 +186,21 @@ public class Computers {
 		return true;
 	}
 
+	public String getiTmember() {
+		return iTmember;
+	}
 
-	
+	public void setiTmember(String iTmember) {
 
+		this.iTmember = iTmember;
+	}
 
-	
+	public String getRoom() {
+		return room;
+	}
 
+	public void setRoom(String room) {
+		this.room = room;
+	}
 
 }

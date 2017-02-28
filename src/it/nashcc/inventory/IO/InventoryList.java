@@ -41,7 +41,7 @@ public class InventoryList {
 	public static ArrayList<Computers> readInventory(String fileName) throws FileNotFoundException {
 
 		File file = new File(fileName);
-		Scanner fileReader = new Scanner(file);
+		Scanner fileReader = new Scanner(file); 
 
 		ArrayList<Computers> computers = new ArrayList<Computers>();
 
@@ -87,15 +87,17 @@ public class InventoryList {
 		Scanner reader = new Scanner(nextLine);
 		Computers computer = null; 
 
-		//reader.useDelimiter(",");
+		reader.useDelimiter(",");
 		try { 
 			String computerName = reader.next();
-			String modelName = reader.next();
+			String arcutecture = reader.next();
+			String modelName = reader.next(); 
 			String assetNumber = reader.next();
 			String serialNumber = reader.next();
-			String arcutecture = reader.next();
+			String iTmember = reader.next();			
+			String room = reader.next();
  
-			computer = new Computers(computerName, modelName, assetNumber, serialNumber, arcutecture);
+			computer = new Computers(computerName, modelName, assetNumber, serialNumber, arcutecture, iTmember, room);
 
 		} catch (NoSuchElementException e) {
 			reader.close();

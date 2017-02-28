@@ -1,4 +1,4 @@
-/*package it.nashcc.inventory.inventoryController;
+package it.nashcc.inventory.inventoryController;
 
 import static org.junit.Assert.*;
 
@@ -31,4 +31,4 @@ fail();
 		fail();
 	}
 
-}*/
+}
