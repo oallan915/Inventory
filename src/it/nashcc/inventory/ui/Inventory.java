@@ -523,7 +523,7 @@ public class Inventory {
 						Computers com = movedComputers.get(selectedIndex);
 						movedComputers.remove(com);
 						movedRows.removeRow(selectedIndex);
-						
+						  
 						movedTable.setModel(movedRows);
 						
 
