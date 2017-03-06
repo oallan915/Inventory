@@ -25,7 +25,7 @@ public class InventoryList {
 
 			for (int i = 0; i < computers.size(); i++) {
 				fileWriter.println(computers.get(i));
- 
+
 			}
 			fileWriter.close();
 		}
@@ -41,17 +41,17 @@ public class InventoryList {
 	public static ArrayList<Computers> readInventory(String fileName) throws FileNotFoundException {
 
 		File file = new File(fileName);
-		Scanner fileReader = new Scanner(file); 
+		Scanner fileReader = new Scanner(file);
 
 		ArrayList<Computers> computers = new ArrayList<Computers>();
 
-		while (fileReader.hasNextLine()) { 
+		while (fileReader.hasNextLine()) {
 
 			try {
 
 				Computers computer = inventoryReader(fileReader.nextLine());
 
-				boolean isDuplicate = false;  
+				boolean isDuplicate = false;
 
 				for (int i = 0; i < computers.size(); i++) {
 
@@ -73,11 +73,9 @@ public class InventoryList {
 			}
 
 		}
-		
+
 		fileReader.close();
 
-		
-		
 		return computers;
 
 	}
@@ -85,18 +83,18 @@ public class InventoryList {
 	public static Computers inventoryReader(String nextLine) throws FileNotFoundException {
 
 		Scanner reader = new Scanner(nextLine);
-		Computers computer = null; 
+		Computers computer = null;
 
 		reader.useDelimiter(",");
-		try { 
+		try {
 			String computerName = reader.next();
 			String arcutecture = reader.next();
-			String modelName = reader.next(); 
+			String modelName = reader.next();
 			String assetNumber = reader.next();
 			String serialNumber = reader.next();
-			String iTmember = reader.next();			
+			String iTmember = reader.next();
 			String room = reader.next();
- 
+
 			computer = new Computers(computerName, modelName, assetNumber, serialNumber, arcutecture, iTmember, room);
 
 		} catch (NoSuchElementException e) {

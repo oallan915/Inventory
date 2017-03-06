@@ -5,6 +5,9 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.TableView.TableRow;
 
 import it.nashcc.inventory.IO.InventoryList;
 import it.nashcc.inventory.computer.Computers;
@@ -25,8 +28,10 @@ import javax.swing.JDialog;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 
 import javax.swing.Box;
 import java.awt.Dimension;
@@ -80,7 +85,13 @@ public class Inventory {
 
 	private JList<String> removeArea = new JList<String>();
 
-	private JTable table;
+	private JTable table = new JTable(10, 7);
+
+	private JTable movedTable;
+
+	private DefaultTableModel rows = new DefaultTableModel();
+
+	private DefaultTableModel movedRows = new DefaultTableModel();
 
 	private DefaultListModel<String> removeList = new DefaultListModel<String>();
 
@@ -93,6 +104,8 @@ public class Inventory {
 	private List<Computers> movedComputers = new ArrayList<Computers>();
 
 	private Computers computer;
+
+	private int inventoryTotal;
 
 	private InventoryController controller;
 
@@ -193,28 +206,6 @@ public class Inventory {
 			lblNash.setBounds(550, 20, 450, 300);
 			frame.getContentPane().add(lblNash);
 
-			/*
-			 * JLabel lblNameList = new JLabel("Name");
-			 * lblNameList.setBounds(20, 280, 85, 14);
-			 * frame.getContentPane().add(lblNameList);
-			 * 
-			 * JLabel lblarc = new JLabel("Arc."); lblarc.setBounds(70, 280, 85,
-			 * 14); frame.getContentPane().add(lblarc);
-			 * 
-			 * JLabel lblModelList = new JLabel("Model");
-			 * lblModelList.setBounds(110, 280, 85, 14);
-			 * frame.getContentPane().add(lblModelList);
-			 * 
-			 * JLabel lblAssetList = new JLabel("Asset");
-			 * lblAssetList.setBounds(165, 280, 85, 14);
-			 * frame.getContentPane().add(lblAssetList);
-			 * 
-			 * 
-			 * JLabel lblSerialList = new JLabel("Serial");
-			 * lblSerialList.setBounds(275, 280, 85, 14);
-			 * frame.getContentPane().add(lblSerialList);
-			 */
-
 			JLabel lblRoom = new JLabel("Deploy to");
 			lblRoom.setBounds(50, 270, 85, 14);
 			frame.getContentPane().add(lblRoom);
@@ -267,7 +258,7 @@ public class Inventory {
 			frame.getContentPane().add(btnAddButton);
 
 			btnReAddButton = new JButton("<< MOVE");
-			btnReAddButton.setBounds(435, 450, 86, 60);
+			btnReAddButton.setBounds(450, 450, 86, 60);
 			frame.getContentPane().add(btnReAddButton);
 
 			btnSaveButton = new JButton("SAVE");
@@ -279,7 +270,7 @@ public class Inventory {
 			frame.getContentPane().add(btnRemove);
 
 			btnMoveBack = new JButton("MOVE >>");
-			btnMoveBack.setBounds(435, 360, 86, 60);
+			btnMoveBack.setBounds(450, 360, 86, 60);
 			frame.getContentPane().add(btnMoveBack);
 
 			frame.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { combo1, txtModel, textField_2,
@@ -290,33 +281,80 @@ public class Inventory {
 
 				movedComputers = InventoryList.readInventory("testfiles/RemovedAsset.csv");
 
+				String[][] movedData = new String[movedComputers.size()][7];
+				String[] movedColumnNames = { "Name", "Arcutecture", "Model", "AssetId", "Serial", "IT", "Location" };
+
 				for (int i = 0; i < movedComputers.size(); i++) {
 					computer = movedComputers.get(i);
+
+					movedData[i][0] = computer.getName();
+					movedData[i][1] = computer.getArcutecture();
+					movedData[i][2] = computer.getModel();
+					movedData[i][3] = computer.getAssetId();
+					movedData[i][4] = computer.getSerialNumber();
+					movedData[i][5] = computer.getiTmember();
+					movedData[i][6] = computer.getRoom();
+
 					removeList.addElement(computer.toString());
 
 				}
 
+				movedRows = new DefaultTableModel(movedData, movedColumnNames);
+
+				String[][] rowData = new String[computers.size()][7];
+
+				String[] columnNames = { "Name", "Arcutecture", "Model", "AssetId", "Serial", "IT", "Location" };
+
+				inventoryTotal = 1;
+
 				for (int i = 0; i < computers.size(); i++) {
 					computer = computers.get(i);
-					model.addElement(computer.toString());
+
+					rowData[i][0] = computer.getName();
+					rowData[i][1] = computer.getArcutecture();
+					rowData[i][2] = computer.getModel();
+					rowData[i][3] = computer.getAssetId();
+					rowData[i][4] = computer.getSerialNumber();
+					rowData[i][5] = computer.getiTmember();
+					rowData[i][6] = computer.getRoom();
+
+					inventoryTotal++;
 
 				}
+
+				rows = new DefaultTableModel(rowData, columnNames);
+
 			} catch (FileNotFoundException e) {
 
 				e.printStackTrace();
 			}
+			scrollBar = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+			scrollBar.setBounds(420, 350, 21, 200);
 
-		
-			textArea.setBounds(21, 350, 400, 200);
-			textArea.add(new JScrollPane(), "West");
-			textArea.setLayout(new GridBagLayout());
-			frame.getContentPane().add(textArea);
+			scrollBar.setBackground(Color.WHITE);
+			scrollBar.setVisible(true);
+			scrollBar.setEnabled(true);
 
-			textArea.setModel(model);
+			table.add(scrollBar);
+			frame.add(scrollBar);
 
-			removeArea.setBounds(550, 350, 400, 200);
-			frame.getContentPane().add(removeArea);
-			removeArea.setModel(removeList);
+			scrollBar.setViewportView(table);
+
+			table.setBounds(21, 350, 400, 200);
+			frame.getContentPane().add(table);
+			table.getTableHeader();
+			table.setModel(rows);
+
+			frame.add(table.getTableHeader(), BorderLayout.NORTH);
+
+			movedTable = new JTable();
+			movedTable.setBounds(550, 350, 400, 200);
+			frame.getContentPane().add(movedTable);
+			movedTable.setModel(movedRows);
+
+			JLabel lblTotal = new JLabel("Total items in inventory: " + computers.size());
+			lblTotal.setBounds(60, 550, 200, 70);
+			frame.getContentPane().add(lblTotal);
 
 			textField_2.setText("856");
 			btnAddButton.addActionListener(this);
@@ -329,8 +367,6 @@ public class Inventory {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
-			int removeAreaIndex = removeArea.getSelectedIndex();
 
 			String fileName = "testfiles/Inventory.csv";
 
@@ -347,29 +383,18 @@ public class Inventory {
 			String serial = textField_3.getText().toUpperCase();
 			String iTmember = coName.getSelectedItem() + "";
 			String location = txtRoom.getText().toUpperCase();
-			
 
-			
-			
-			try {
-
-				modelC = modelC.substring(0, 4);
-				assetId = assetId.substring(0, 9);
-
-			} catch (StringIndexOutOfBoundsException e1) {
-
-			}
 			if (e.getSource() == btnAddButton) {
 
 				try {
 					computer = new Computers(name, modelC, assetId, serial, arcutecture, iTmember, location);
-					
-					String[][] rowData = { {name, arcutecture, modelC, assetId, serial, iTmember, location} };
-					String[] columnNames =  {"Name", "Arcutecture", "Model", "AssetId", "Serial", "IT", "Location"};
-					table = new JTable(rowData, columnNames);
+
 					if (computers.add(computer)) {
-						model.addElement(computer.toString());
-						textArea.setModel(model);
+						String[][] rowData = new String[][] {
+								{ name, arcutecture, modelC, assetId, serial, iTmember, location } };
+
+						rows.addRow(rowData[0]);
+						table.setModel(rows);
 
 					} else {
 						JOptionPane.showMessageDialog(frame, "Asset is already added", " Error",
@@ -389,12 +414,7 @@ public class Inventory {
 			/* REMOVE BUTTON CLICK */
 			if (e.getSource() == btnMoveBack) {
 
-				textField.setText("");
-				txtModel.setText("");
-				textField_2.setText("856");
-				textField_3.setText("");
-
-				int index = textArea.getSelectedIndex();
+				int index = table.convertColumnIndexToModel(table.getSelectedRow());
 
 				if (index == -1) {
 					JOptionPane.showMessageDialog(frame, "Must select an Asset", "Selection Error",
@@ -405,15 +425,17 @@ public class Inventory {
 					Computers com = computers.get(index);
 
 					computers.remove(com);
-					model.remove(index);
+					rows.removeRow(index);
+					table.setModel(rows);
+
+					String[][] rowData = new String[][] { { com.getName(), com.getArcutecture(), com.getModel(),
+							com.getAssetId(), com.getSerialNumber(), com.getiTmember(), com.getRoom() } };
 
 					movedComputers.add(com);
-					removeList.addElement(com.toString());
-					removeArea.setModel(removeList);
 
-					textArea.ensureIndexIsVisible(model.size());
-					textArea.setModel(model);
-					textArea.setVisibleRowCount(10);
+					movedRows.addRow(rowData[0]);
+
+					movedTable.setModel(movedRows);
 
 				}
 			}
@@ -422,12 +444,13 @@ public class Inventory {
 
 				try {
 
-					file.delete();
-					removeAssets.delete();
 					JOptionPane optionPane = new JOptionPane("Save file?", JOptionPane.QUESTION_MESSAGE,
 							JOptionPane.YES_NO_OPTION);
 
 					JDialog dialog = optionPane.createDialog(frame, "Save");
+
+					file.delete();
+					removeAssets.delete();
 
 					dialog.setVisible(true);
 
@@ -450,60 +473,76 @@ public class Inventory {
 
 			}
 			if (e.getSource() == btnReAddButton) {
+				int moveIndex = movedTable.convertColumnIndexToModel(movedTable.getSelectedRow());
 
-				try {
-					Computers com = movedComputers.get(removeAreaIndex);
+				if (moveIndex == -1) {
+					JOptionPane.showMessageDialog(frame, "Must select an Asset", "Selection Error",
+							JOptionPane.ERROR_MESSAGE);
 
-					movedComputers.remove(com);
-					removeList.remove(removeAreaIndex);
+				} else {
 
-					computers.add(com);
-					model.addElement(com.toString());
-					textArea.setModel(model);
-
-					removeArea.setModel(removeList);
-
-				} catch (ArrayIndexOutOfBoundsException e2) {
-
-				} catch (IndexOutOfBoundsException e2) {
-
-				}
-			}
-
-			if (e.getSource() == btnRemove) {
-
-				int i = textArea.getSelectedIndex();
-
-				int selectedIndex = removeArea.getSelectedIndex();
-
-				if (removeArea.isSelectedIndex(selectedIndex)) {
 					try {
+						Computers com = movedComputers.get(moveIndex);
+
+						movedComputers.remove(com);
+						movedRows.removeRow(moveIndex);
+						movedTable.setModel(movedRows);
+						computers.add(com);
+
+						String[][] rowData = new String[computers.size()][7];
+
+						for (int i = 0; i < computers.size(); i++) {
+							com = computers.get(i);
+
+							rowData[moveIndex][0] = com.getName();
+							rowData[moveIndex][1] = com.getArcutecture();
+							rowData[moveIndex][2] = com.getModel();
+							rowData[moveIndex][3] = com.getAssetId();
+							rowData[moveIndex][4] = com.getSerialNumber();
+							rowData[moveIndex][5] = com.getiTmember();
+							rowData[moveIndex][6] = com.getRoom();
+						}
+						rows.addRow(rowData[moveIndex]);
+						table.setModel(rows);
+
+					} catch (ArrayIndexOutOfBoundsException e2) {
+
+					} catch (IndexOutOfBoundsException e2) {
+
+					}
+				}
+
+				if (e.getSource() == btnRemove) {
+
+					
+
+				
+
+					try {
+						int selectedIndex = movedTable.getSelectedRow();
 						Computers com = movedComputers.get(selectedIndex);
 						movedComputers.remove(com);
-						removeList.remove(selectedIndex);
+						movedRows.removeRow(selectedIndex);
+						
+						movedTable.setModel(movedRows);
+						
 
-						removeArea.setModel(removeList);
-
-					} catch (ArrayIndexOutOfBoundsException e2) {
-
-					} catch (IndexOutOfBoundsException e2) {
-
-					}
-				} else if (textArea.isSelectedIndex(i)) {
-
-					try {
-						Computers com = computers.get(i);
-
-						computers.remove(com);
-						model.remove(i);
-
-						textArea.setModel(model);
 
 					} catch (ArrayIndexOutOfBoundsException e2) {
 
 					} catch (IndexOutOfBoundsException e2) {
 
 					}
+					int i = table.convertColumnIndexToModel(table.getSelectedRow());
+					Computers com = computers.get(i);
+
+					computers.remove(com);
+					rows.removeRow(i);
+					table.setModel(rows);
+
+					String[][] rowData = new String[][] { { com.getName(), com.getArcutecture(), com.getModel(),
+							com.getAssetId(), com.getSerialNumber(), com.getiTmember(), com.getRoom() } };
+			
 
 				}
 

@@ -35,7 +35,7 @@ public class InventoryController {
 	}
 	/**
 	 * 
-	 * @return
+	 * @return 
 	 */
 	public String[][] getComputers() {
 		String[][] a = new String[computer.size()][6];
