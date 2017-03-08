@@ -68,7 +68,7 @@ public class InventoryController {
 	 */
 	public boolean addComputer(String name, String model, String assetId, String serialNumber, String arcutecture, String iTmember, String room) {
 		Computers c = new Computers(name, model, assetId, serialNumber, arcutecture, iTmember, room);
-		boolean add = false;
+		boolean add = false; 
 		for (int i = 0; i < computer.size(); i++) {
 		 c = computer.get(i); 
  

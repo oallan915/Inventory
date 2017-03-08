@@ -19,7 +19,7 @@ public class Computers {
 	private String arcutecture;
 
 	private String iTmember;
-	
+
 	private String room;
 
 	/**
@@ -71,7 +71,7 @@ public class Computers {
 	public void setModel(String model) {
 
 		if (model == null || model.isEmpty()) {
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException("Model Number cannot be empty");
 		}
 		this.model = model;
 	}
@@ -90,15 +90,16 @@ public class Computers {
 	 * @param assetId
 	 */
 	public void setAssetId(String assetId) {
-		if (assetId == null) {
-			throw new IllegalArgumentException();
-		}
-		if (assetId.isEmpty()) {
-			throw new IllegalArgumentException();
+		if (assetId == null || assetId.isEmpty() || assetId.isEmpty()) {
+			throw new IllegalArgumentException("Asset # must be 9 numbers");
 		}
 
-		if (assetId.length() != 9) {
-			throw new IllegalArgumentException();
+		char c = ' ';
+		for (int i = 0; i < assetId.length(); i++) {
+			c = assetId.charAt(i);
+			if (!Character.isDigit(c)) {
+				throw new IllegalArgumentException("Must contain numbers Only");
+			}
 		}
 		this.assetId = assetId;
 	}
@@ -117,15 +118,11 @@ public class Computers {
 	 */
 	public void setSerialNumber(String serialNumber) {
 
-		if (serialNumber == null) {
-			throw new IllegalArgumentException();
+		if (serialNumber == null || serialNumber.isEmpty() || serialNumber.length() <= 3 ) {
+			throw new IllegalArgumentException("Serial number cannot be empty \n or less than 3 characters");
 		}
-		if (serialNumber.isEmpty()) {
-			throw new IllegalArgumentException();
-		}
-		if (serialNumber.length() <= 3) {
-			throw new IllegalArgumentException();
-		}
+
+
 		this.serialNumber = serialNumber;
 	}
 
@@ -140,12 +137,13 @@ public class Computers {
 
 	@Override
 	public String toString() {
-		return name + "," + arcutecture + ","  + model + ","+ assetId + "," + serialNumber + "," + iTmember + "," + room;
+		return name + "," + arcutecture + "," + model + "," + assetId + "," + serialNumber + "," + iTmember + ","
+				+ room;
 	}
 
 	@Override
 	public int hashCode() {
-		final int prime = 31; 
+		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((assetId == null) ? 0 : assetId.hashCode());
 		result = prime * result + ((model == null) ? 0 : model.hashCode());

@@ -18,7 +18,7 @@ public class InventoryList {
 		String docName = fileName;
 
 		if (docName == null || docName.isEmpty()) {
-			throw new IOException();
+			throw new IOException(); 
 		} else {
 
 			PrintWriter fileWriter = new PrintWriter(new FileWriter(docName, true));
