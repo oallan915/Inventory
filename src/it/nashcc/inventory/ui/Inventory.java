@@ -485,6 +485,10 @@ public class Inventory {
 			String removeAsset = "testfiles/RemovedAsset.csv";
 
 			File removeAssets = new File("testfiles/RemovedAsset.csv");
+			
+			File fCampus = new File("testfiles/2119.csv");
+			
+			String removedItems = "testfiles/2119.csv";
 
 			String name = combo1.getSelectedItem() + "";
 			String arcutecture = combo2.getSelectedItem() + "";
@@ -561,6 +565,7 @@ public class Inventory {
 
 					file.delete();
 					removeAssets.delete();
+					fCampus.delete();
 
 					dialog.setVisible(true);
 
@@ -568,6 +573,8 @@ public class Inventory {
 						InventoryList.writeInventory(fileName, computers);
 
 						InventoryList.writeInventory(removeAsset, movedComputers);
+						
+						InventoryList.writeInventory(removedItems, offCampus);
 
 					} catch (IOException e1) {
 
@@ -627,7 +634,7 @@ public class Inventory {
 
 				} else if (table.getSelectedRow() > -1) {
 
-					int i = table.convertRowIndexToModel(table.getSelectedRow());
+					int i = table.getSelectedRow();
 					Computers com1 = computers.get(i);
 
 					computers.remove(com1);
@@ -643,13 +650,13 @@ public class Inventory {
 							JOptionPane.ERROR_MESSAGE);
 
 				}
-				String removedItems = "testfiles/2119.csv";
-				try {
+				
+	/*			try {
 					InventoryList.writeInventory(removedItems, offCampus);
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}
+				}*/
 
 			}
 
