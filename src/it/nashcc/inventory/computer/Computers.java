@@ -90,8 +90,8 @@ public class Computers {
 	 * @param assetId
 	 */
 	public void setAssetId(String assetId) {
-		if (assetId == null || assetId.isEmpty() || assetId.isEmpty()) {
-			throw new IllegalArgumentException("Asset # must be 9 numbers");
+		if (assetId == null || assetId.isEmpty() || assetId.length() < 6) {
+			throw new IllegalArgumentException("Asset # must be 6 numbers");
 		}
 
 		char c = ' ';
@@ -126,7 +126,7 @@ public class Computers {
 		this.serialNumber = serialNumber;
 	}
 
-	public String getArcutecture() {
+	public String getArcutecture() { 
 		return arcutecture;
 	}
 

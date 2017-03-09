@@ -2,6 +2,8 @@ package it.nashcc.inventory.ui;
 
 import java.awt.EventQueue;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -35,6 +37,10 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
+import java.awt.print.PageFormat;
+import java.awt.print.Printable;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -73,6 +79,8 @@ public class Inventory {
 
 	private JButton btnRemove;
 
+	private JButton printButton;
+
 	private JList<String> textArea = new JList<String>();
 
 	private JTable table = new JTable();
@@ -93,10 +101,12 @@ public class Inventory {
 
 	private List<Computers> movedComputers = new ArrayList<Computers>();
 
+	private List<Computers> offCampus = new ArrayList<Computers>();
+
 	private JLabel lblTotal;
-	
+
 	private JTextField txtTotal = new JTextField();
-	
+
 	private int size;
 
 	private Computers computer;
@@ -198,33 +208,77 @@ public class Inventory {
 			lblRoom.setBounds(50, 270, 85, 14);
 			frame.getContentPane().add(lblRoom);
 
-			JLabel lblName = new JLabel("Name");
-			lblName.setBounds(28, 335, 85, 14);
+			JTextField lblName = new JTextField("Name");
+			lblName.setEditable(false);
+			lblName.setBounds(20, 335, 57, 14);
 			frame.getContentPane().add(lblName);
 
-			JLabel lblarc = new JLabel("Arc.");
-			lblarc.setBounds(90, 335, 85, 14);
+			JTextField lblarc = new JTextField("Arc.");
+			lblarc.setEditable(false);
+			lblarc.setBounds(78, 335, 56, 14);
 			frame.getContentPane().add(lblarc);
 
-			JLabel lblModelNumber = new JLabel("Model #");
-			lblModelNumber.setBounds(140, 335, 85, 14);
+			JTextField lblModelNumber = new JTextField("Model #");
+			lblModelNumber.setEditable(false);
+			lblModelNumber.setBounds(135, 335, 56, 14);
 			frame.getContentPane().add(lblModelNumber);
 
-			JLabel lblAssetTag = new JLabel("Asset #");
-			lblAssetTag.setBounds(195, 335, 85, 14);
+			JTextField lblAssetTag = new JTextField("Asset #");
+			lblAssetTag.setEditable(false);
+			lblAssetTag.setBounds(192, 335, 56, 14);
 			frame.getContentPane().add(lblAssetTag);
 
-			JLabel serial = new JLabel("Serial #");
-			serial.setBounds(250, 335, 85, 14);
+			JTextField serial = new JTextField("Serial #");
+			serial.setEditable(false);
+			serial.setBounds(249, 335, 56, 14);
 			frame.getContentPane().add(serial);
 
-			JLabel lblDeployer = new JLabel("Staff");
-			lblDeployer.setBounds(310, 335, 85, 14);
+			JTextField lblDeployer = new JTextField("Staff");
+			lblDeployer.setEditable(false);
+			lblDeployer.setBounds(307, 335, 56, 14);
 			frame.getContentPane().add(lblDeployer);
 
-			JLabel lblRoomNumer = new JLabel("Room");
-			lblRoomNumer.setBounds(370, 335, 85, 14);
+			JTextField lblRoomNumer = new JTextField("Room");
+			lblRoomNumer.setEditable(false);
+			lblRoomNumer.setBounds(364, 335, 56, 14);
 			frame.getContentPane().add(lblRoomNumer);
+			
+			
+			
+			JTextField lblName_2 = new JTextField("Name");
+			lblName_2.setEditable(false);
+			lblName_2.setBounds(549, 335, 57, 14);
+			frame.getContentPane().add(lblName_2);
+
+			JTextField lblarc_2 = new JTextField("Arc.");
+			lblarc_2.setEditable(false);
+			lblarc_2.setBounds(606, 335, 57, 14);
+			frame.getContentPane().add(lblarc_2);
+
+			JTextField lblModelNumber_2 = new JTextField("Model #");
+			lblModelNumber_2.setEditable(false);
+			lblModelNumber_2.setBounds(663, 335, 57, 14);
+			frame.getContentPane().add(lblModelNumber_2);
+
+			JTextField lblAssetTag_2 = new JTextField("Asset #");
+			lblAssetTag_2.setEditable(false);
+			lblAssetTag_2.setBounds(700, 335, 56, 14);
+			frame.getContentPane().add(lblAssetTag_2);
+
+			JTextField serial_2 = new JTextField("Serial #");
+			serial_2.setEditable(false);
+			serial_2.setBounds(750, 335, 56, 14);
+			frame.getContentPane().add(serial_2);
+
+			JTextField lblDeployer_2 = new JTextField("Staff");
+			lblDeployer_2.setEditable(false);
+			lblDeployer_2.setBounds(800, 335, 56, 14);
+			frame.getContentPane().add(lblDeployer_2);
+
+			JTextField lblRoomNumer_2 = new JTextField("Room");
+			lblRoomNumer_2.setEditable(false);
+			lblRoomNumer_2.setBounds(850, 335, 56, 14);
+			frame.getContentPane().add(lblRoomNumer_2);
 
 			combo1.setBounds(160, 45, 86, 20);
 			frame.getContentPane().add(combo1);
@@ -258,40 +312,54 @@ public class Inventory {
 
 			textField_2.setBounds(160, 157, 86, 20);
 			frame.getContentPane().add(textField_2);
-			textField_2.setToolTipText("Only accepts 9 characters");
+			textField_2.setToolTipText("Only accepts 6 characters");
 
 			textField_3 = new JTextField();
 			textField_3.setBounds(160, 193, 86, 20);
+			textField_3.setToolTipText("Assets serial number.");
 			frame.getContentPane().add(textField_3);
 
 			txtRoom = new JTextField();
 			txtRoom.setBounds(160, 270, 86, 20);
+			txtRoom.setToolTipText(
+					"The room the asset is deployed. If asset is being placed in 2119, select asset a and click remove button");
 			frame.getContentPane().add(txtRoom);
 
 			btnAddButton = new JButton("ADD");
-
 			btnAddButton.setBounds(276, 52, 86, 150);
+			btnAddButton.setToolTipText("Adds asset in I.T. inventory");
 			frame.getContentPane().add(btnAddButton);
 
 			btnReAddButton = new JButton("<< MOVE");
 			btnReAddButton.setBounds(450, 450, 86, 60);
+			btnReAddButton.setToolTipText("Moves asset back in I.T. inventory");
 			frame.getContentPane().add(btnReAddButton);
 
 			btnSaveButton = new JButton("SAVE");
 			btnSaveButton.setBounds(360, 52, 86, 150);
+			btnSaveButton.setToolTipText("Saves all changes to the inventory");
 			frame.getContentPane().add(btnSaveButton);
 
 			btnRemove = new JButton("REMOVE");
 			btnRemove.setBounds(445, 52, 86, 150);
+			btnRemove.setToolTipText("Removes the asset from inventory and places it to a 2119 csv file.");
 			frame.getContentPane().add(btnRemove);
 
 			btnMoveBack = new JButton("MOVE >>");
-			btnMoveBack.setBounds(450, 360, 86, 60);
+			btnMoveBack.setBounds(450, 350, 86, 60);
+			btnMoveBack.setToolTipText("Moves Asset out of our inventory. Be sure to type in the room number that the asset is to be deployed.");
 			frame.getContentPane().add(btnMoveBack);
 
-			frame.setFocusTraversalPolicy(
-					new FocusTraversalOnArray(new Component[] { combo1, combo2, txtModel, textField_2, textField_3,
-							coName, txtRoom, btnAddButton, btnSaveButton, btnRemove, btnMoveBack, btnReAddButton }));
+			JButton printButton = new JButton("PRINT");
+			printButton.setBounds(300, 202, 220, 60);
+			printButton.setToolTipText("Select the asset in the table and click print");
+			frame.getContentPane().add(printButton);
+			
+			printButton.addActionListener(new HelloWorldPrinter());
+
+			frame.setFocusTraversalPolicy(new FocusTraversalOnArray(
+					new Component[] { combo1, combo2, txtModel, textField_2, textField_3, coName, txtRoom, btnAddButton,
+							btnSaveButton, btnRemove, printButton, btnMoveBack, btnReAddButton }));
 
 			String[] columnNames = { "Name", "Arcutecture", "Model", "AssetId", "Serial", "IT", "Location" };
 			try {
@@ -343,22 +411,16 @@ public class Inventory {
 			}
 			scrollBar = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 			scrollBar.setBounds(420, 350, 21, 200);
-
 			scrollBar.setEnabled(true);
 
 			frame.getContentPane().add(scrollBar);
-
 			scrollBar.setViewportView(table);
 			rows.setColumnIdentifiers(columnNames);
 
 			frame.getContentPane().add(header);
-
 			table.setBounds(21, 350, 400, 200);
-
 			table.setFont(new Font("Arial", Font.BOLD, 12));
-
 			frame.getContentPane().add(table);
-
 			table.setModel(rows);
 
 			movedTable = new JTable();
@@ -367,20 +429,19 @@ public class Inventory {
 			frame.getContentPane().add(movedTable);
 			movedTable.setModel(movedRows);
 
-			
 			size = computers.size();
-			
+
 			txtTotal.setText(size + "");
-			
+
 			txtTotal.setEditable(false);
 			txtTotal.setBounds(195, 575, 20, 20);
 			frame.getContentPane().add(txtTotal);
-			
+
 			lblTotal = new JLabel("Total items in inventory: ");
 			lblTotal.setBounds(60, 550, 200, 70);
-			frame.getContentPane().add(lblTotal); 
+			frame.getContentPane().add(lblTotal);
 
-			textField_2.setText("856");
+			textField_2.setText("");
 			btnAddButton.addActionListener(this);
 
 			InputMap add = btnAddButton.getInputMap();
@@ -410,6 +471,7 @@ public class Inventory {
 			InputMap remove = btnMoveBack.getInputMap();
 			remove.put(KeyStroke.getKeyStroke("ENTER"), "pressed");
 			remove.put(KeyStroke.getKeyStroke("released ENTER"), "released");
+
 		}
 		/* END OF GUI */
 
@@ -434,16 +496,14 @@ public class Inventory {
 
 			if (e.getSource() == btnAddButton) {
 
-					try {
+				try {
 
-						computer = new Computers(name, modelC, assetId, serial, arcutecture, iTmember, location);
-					} catch (IllegalArgumentException e1) {
-						
-						JOptionPane.showMessageDialog(frame,
-								e1.getMessage(),
-								"Text Error", JOptionPane.ERROR_MESSAGE);
-					}
-						
+					computer = new Computers(name, modelC, assetId, serial, arcutecture, iTmember, location);
+				} catch (IllegalArgumentException e1) {
+
+					JOptionPane.showMessageDialog(frame, e1.getMessage(), "Text Error", JOptionPane.ERROR_MESSAGE);
+				}
+
 				computer = new Computers(name, modelC, assetId, serial, arcutecture, iTmember, location);
 
 				if (computers.add(computer)) {
@@ -453,13 +513,12 @@ public class Inventory {
 					rows.addRow(rowData[0]);
 					table.setModel(rows);
 
-				
 					size = computers.size();
 				}
-			
+
 				textField.setText("");
 				txtModel.setText("");
-				textField_2.setText("856");
+				textField_2.setText("");
 				textField_3.setText("");
 			}
 			/* REMOVE BUTTON CLICK */
@@ -478,11 +537,10 @@ public class Inventory {
 					computers.remove(com);
 					rows.removeRow(index);
 					table.setModel(rows);
-
-					String[][] rowData = new String[][] { { com.getName(), com.getArcutecture(), com.getModel(),
-							com.getAssetId(), com.getSerialNumber(), com.getiTmember(), location } };
-
 					com.setRoom(location);
+					String[][] rowData = new String[][] { { com.getName(), com.getArcutecture(), com.getModel(),
+							com.getAssetId(), com.getSerialNumber(), com.getiTmember(), com.getRoom() } };
+
 					movedComputers.add(com);
 
 					movedRows.addRow(rowData[0]);
@@ -519,7 +577,7 @@ public class Inventory {
 
 				} catch (NullPointerException e6) {
 
-					textField_2.setText("856");
+					textField_2.setText("");
 
 				}
 
@@ -538,11 +596,12 @@ public class Inventory {
 				} else {
 
 					Computers com = movedComputers.get(moveIndex);
-					
-					com.setRoom("2218");
+
 					movedComputers.remove(com);
 					movedRows.removeRow(moveIndex);
 					movedTable.setModel(movedRows);
+					com.setRoom("2218");
+					com.setiTmember(iTmember);
 					computers.add(com);
 
 					String[][] rowData = new String[][] { { com.getName(), com.getArcutecture(), com.getModel(),
@@ -563,6 +622,7 @@ public class Inventory {
 
 					movedComputers.remove(com);
 					movedRows.removeRow(moveIndex);
+					offCampus.add(com);
 					movedTable.setModel(movedRows);
 
 				} else if (table.getSelectedRow() > -1) {
@@ -571,19 +631,65 @@ public class Inventory {
 					Computers com1 = computers.get(i);
 
 					computers.remove(com1);
+
 					rows.removeRow(i);
+
+					offCampus.add(com1);
 					table.setModel(rows);
 
 				} else {
 
-					JOptionPane.showMessageDialog(frame, "Must select an Asset to remove", "Selection Error",
+					JOptionPane.showMessageDialog(frame, "Must select an Asset to be removed", "Selection Error",
 							JOptionPane.ERROR_MESSAGE);
 
 				}
+				String removedItems = "testfiles/2119.csv";
+				try {
+					InventoryList.writeInventory(removedItems, offCampus);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+			}
+
+			if (e.getSource() == printButton) {
 
 			}
 		}
 
-	}
+		public class HelloWorldPrinter implements Printable, ActionListener {
 
+			public int print(Graphics g, PageFormat pf, int page) throws PrinterException {
+
+				if (page > 0) { /*
+								 * We have only one page, and 'page' is
+								 * zero-based
+								 */
+					return NO_SUCH_PAGE;
+				}
+
+				return PAGE_EXISTS;
+			}
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+
+				try {
+					if (table.getSelectedRow() > -1) {
+						table.print();
+					} else if (movedTable.getSelectedRow() > -1) {
+						movedTable.print();
+					} else {
+						JOptionPane.showMessageDialog(frame, "Must select an Asset to be printed", "Selection Error",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				} catch (PrinterException ex) {
+					/* The job did not successfully complete */
+				}
+			}
+
+		}
+	}
 }
