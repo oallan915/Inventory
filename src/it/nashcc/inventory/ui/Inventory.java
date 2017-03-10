@@ -23,8 +23,6 @@ import javax.swing.JDialog;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
-
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Component;
 import javax.swing.JList;
@@ -86,6 +84,7 @@ public class Inventory {
 
 	private JTable table = new JTable();
 
+	private JTableHeader header = new JTableHeader();
 
 	private JTable movedTable;
 
@@ -169,20 +168,16 @@ public class Inventory {
 
 			frame = new JFrame("Nash IT Inventory");
 			frame.setResizable(true);
-			frame.setLayout(new BorderLayout());
 			frame.setBounds(1000, 500, 1000, 750);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			
 			frame.getContentPane().setLayout(new CardLayout(0, 0));
-			
 
 			frame.setLocationRelativeTo(null);
 			frame.setVisible(true);
 
 			mainPanel = new JPanel(null);
 			mainPanel.setVisible(true);
-			frame.add(mainPanel, BorderLayout.CENTER);
-			frame.pack();
+			frame.add(mainPanel);
 
 			mainPanel.setBounds(1000, 500, 1000, 630);
 
