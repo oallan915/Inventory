@@ -3,44 +3,34 @@ package it.nashcc.inventory.ui;
 import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-
 import it.nashcc.inventory.IO.InventoryList;
 import it.nashcc.inventory.computer.Computers;
 import it.nashcc.inventory.inventoryController.InventoryController;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-
 import javax.swing.JDialog;
-
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
-
 import java.awt.CardLayout;
 import java.awt.Component;
-
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-
 import java.awt.event.ActionListener;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -108,8 +98,6 @@ public class Inventory {
 
 	private DefaultListModel<String> removeList = new DefaultListModel<String>();
 
-	private JScrollPane scrollBar;
-
 	private List<Computers> computers = new ArrayList<Computers>();
 
 	private List<Computers> movedComputers = new ArrayList<Computers>();
@@ -118,9 +106,9 @@ public class Inventory {
 
 	private JLabel lblTotal;
 
-	private JTextField txtTotal = new JTextField();
-
-	private int size;
+	private JTextField txtTotal;
+	
+	private JTextField txtTotal2119;
 
 	private Computers computer;
 
@@ -179,8 +167,8 @@ public class Inventory {
 			super();
 
 			frame = new JFrame("Nash IT Inventory");
-			frame.setResizable(false);
-			frame.setBounds(1000, 500, 1000, 630);
+			frame.setResizable(true);
+			frame.setBounds(1000, 500, 1000, 750);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.getContentPane().setLayout(new CardLayout(0, 0));
 
@@ -196,6 +184,8 @@ public class Inventory {
 			card1 = new JPanel();
 			card1.setVisible(false);
 			card1.setBounds(1000, 500, 1000, 630);
+			card1.setLayout(null);
+
 			frame.getContentPane().add(card1);
 
 			JLabel lblComputerName = new JLabel("Machine Name");
@@ -231,76 +221,6 @@ public class Inventory {
 			JLabel lblRoom = new JLabel("Deploy to");
 			lblRoom.setBounds(50, 270, 85, 14);
 			mainPanel.add(lblRoom);
-
-			JTextField lblName = new JTextField("Name");
-			lblName.setEditable(false);
-			lblName.setBounds(20, 335, 57, 14);
-			mainPanel.add(lblName);
-
-			JTextField lblarc = new JTextField("Arc.");
-			lblarc.setEditable(false);
-			lblarc.setBounds(78, 335, 56, 14);
-			mainPanel.add(lblarc);
-
-			JTextField lblModelNumber = new JTextField("Model #");
-			lblModelNumber.setEditable(false);
-			lblModelNumber.setBounds(135, 335, 56, 14);
-			mainPanel.add(lblModelNumber);
-
-			JTextField lblAssetTag = new JTextField("Asset #");
-			lblAssetTag.setEditable(false);
-			lblAssetTag.setBounds(192, 335, 56, 14);
-			mainPanel.add(lblAssetTag);
-
-			JTextField serial = new JTextField("Serial #");
-			serial.setEditable(false);
-			serial.setBounds(249, 335, 56, 14);
-			mainPanel.add(serial);
-
-			JTextField lblDeployer = new JTextField("Staff");
-			lblDeployer.setEditable(false);
-			lblDeployer.setBounds(307, 335, 56, 14);
-			mainPanel.add(lblDeployer);
-
-			JTextField lblRoomNumer = new JTextField("Room");
-			lblRoomNumer.setEditable(false);
-			lblRoomNumer.setBounds(364, 335, 56, 14);
-			mainPanel.add(lblRoomNumer);
-
-			JTextField lblName_2 = new JTextField("Name");
-			lblName_2.setEditable(false);
-			lblName_2.setBounds(549, 335, 57, 14);
-			mainPanel.add(lblName_2);
-
-			JTextField lblarc_2 = new JTextField("Arc.");
-			lblarc_2.setEditable(false);
-			lblarc_2.setBounds(606, 335, 57, 14);
-			mainPanel.add(lblarc_2);
-
-			JTextField lblModelNumber_2 = new JTextField("Model #");
-			lblModelNumber_2.setEditable(false);
-			lblModelNumber_2.setBounds(663, 335, 57, 14);
-			mainPanel.add(lblModelNumber_2);
-
-			JTextField lblAssetTag_2 = new JTextField("Asset #");
-			lblAssetTag_2.setEditable(false);
-			lblAssetTag_2.setBounds(700, 335, 56, 14);
-			mainPanel.add(lblAssetTag_2);
-
-			JTextField serial_2 = new JTextField("Serial #");
-			serial_2.setEditable(false);
-			serial_2.setBounds(750, 335, 56, 14);
-			mainPanel.add(serial_2);
-
-			JTextField lblDeployer_2 = new JTextField("Staff");
-			lblDeployer_2.setEditable(false);
-			lblDeployer_2.setBounds(800, 335, 56, 14);
-			mainPanel.add(lblDeployer_2);
-
-			JTextField lblRoomNumer_2 = new JTextField("Room");
-			lblRoomNumer_2.setEditable(false);
-			lblRoomNumer_2.setBounds(850, 335, 56, 14);
-			mainPanel.add(lblRoomNumer_2);
 
 			combo1.setBounds(160, 45, 86, 20);
 			mainPanel.add(combo1);
@@ -374,7 +294,7 @@ public class Inventory {
 			mainPanel.add(btnMoveBack);
 
 			printButton = new JButton("PRINT");
-			printButton.setBounds(300, 202, 220, 60);
+			printButton.setBounds(295, 202, 220, 60);
 			printButton.setToolTipText("Select the asset in the table and click print");
 			mainPanel.add(printButton);
 
@@ -454,7 +374,7 @@ public class Inventory {
 
 			table2119 = new JTable();
 			table2119.setFont(new Font("Arial", Font.BOLD, 12));
-			table2119.setBounds(300, 550, 900, 500);
+			table2119.setBounds(20, 70, 900, 500);
 			card1.add(table2119);
 			table2119.setModel(rows2119);
 
@@ -463,11 +383,18 @@ public class Inventory {
 				public void actionPerformed(ActionEvent e) {
 					mainPanel.setVisible(false);
 					card1.setVisible(true);
+					total2119();
 
-					// inventory.setVisible(false);
 				};
 			});
+			btnRemoveCard.setBounds(750, 555, 200, 45);
+			btnRemoveCard.setToolTipText("View Assets in 2119 currently.");
+			mainPanel.add(btnRemoveCard);
 
+			JLabel lbltotal2119 = new JLabel("Total Assets in 2119:");
+			card1.add(lbltotal2119);
+			lbltotal2119.setBounds(20, 20, 170, 50);
+			
 			btnBack = new JButton("BACK");
 			card1.add(btnBack);
 			btnBack.addActionListener(new ActionListener() {
@@ -477,48 +404,46 @@ public class Inventory {
 
 				};
 			});
-			btnBack.setBounds(21, 52, 86, 150);
+
+			btnBack.setBounds(400, 10, 86, 30);
 
 			btnPrintRemoved = new JButton("PRINT");
-			btnPrintRemoved.setBounds(300, 202, 220, 60);
+			btnPrintRemoved.setBounds(500, 10, 86, 30);
 			btnPrintRemoved.setToolTipText("Select the asset in the table and click print");
 			card1.add(btnPrintRemoved);
 
 			btnPrintRemoved.addActionListener(new HelloWorldPrinter());
 
-			scrollBar = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-			scrollBar.setBounds(420, 350, 21, 200);
-			scrollBar.setEnabled(true);
-			mainPanel.add(scrollBar);
-			table.add(scrollBar);
-		
-			btnRemoveCard.setBounds(790, 555, 200, 45);
-			btnRemoveCard.setToolTipText("Select the asset in the table and click print");
-			mainPanel.add(btnRemoveCard);
+			JScrollPane scrollBar2119 = new JScrollPane();
+			card1.add(scrollBar2119);
+			scrollBar2119.setAutoscrolls(true);
+			scrollBar2119.setViewportView(table2119);
+			scrollBar2119.setBounds(20, 70, 900, 500);
 
-			mainPanel.add(scrollBar);
-			scrollBar.setViewportView(table);
-			rows.setColumnIdentifiers(columnNames);
-
-			mainPanel.add(header);
 			table.setBounds(21, 350, 400, 200);
 			table.setFont(new Font("Arial", Font.BOLD, 12));
 			mainPanel.add(table);
 			table.setModel(rows);
 
+			JScrollPane scrollBar = new JScrollPane();
+			mainPanel.add(scrollBar);
+			scrollBar.setAutoscrolls(true);
+			scrollBar.setViewportView(table);
+			scrollBar.setBounds(21, 330, 400, 200);
+
 			movedTable = new JTable();
 			movedTable.setFont(new Font("Arial", Font.BOLD, 12));
-			movedTable.setBounds(550, 350, 400, 200);
+			movedTable.setBounds(550, 330, 400, 200);
 			mainPanel.add(movedTable);
 			movedTable.setModel(movedRows);
 
-			size = computers.size();
-
-			txtTotal.setText(size + "");
-
-			txtTotal.setEditable(false);
-			txtTotal.setBounds(195, 575, 20, 20);
-			mainPanel.add(txtTotal);
+			JScrollPane scrollBarMove = new JScrollPane();
+			mainPanel.add(scrollBarMove);
+			scrollBarMove.setAutoscrolls(true);
+			scrollBarMove.setViewportView(movedTable);
+			scrollBarMove.setBounds(550, 330, 400, 200);
+	
+			inventoryTotal();
 
 			lblTotal = new JLabel("Total items in inventory: ");
 			lblTotal.setBounds(60, 550, 200, 70);
@@ -555,8 +480,8 @@ public class Inventory {
 			remove.put(KeyStroke.getKeyStroke("ENTER"), "pressed");
 			remove.put(KeyStroke.getKeyStroke("released ENTER"), "released");
 
-			btnRemoveCard.addActionListener(this);
-
+		
+			total2119();
 		}
 		/* END OF GUI */
 
@@ -602,7 +527,7 @@ public class Inventory {
 					rows.addRow(rowData[0]);
 					table.setModel(rows);
 
-					size = computers.size();
+					inventoryTotal();
 				}
 
 				textField.setText("");
@@ -635,6 +560,8 @@ public class Inventory {
 					movedRows.addRow(rowData[0]);
 
 					movedTable.setModel(movedRows);
+
+					inventoryTotal();
 
 				}
 			}
@@ -701,17 +628,19 @@ public class Inventory {
 
 					rows.addRow(rowData[0]);
 					table.setModel(rows);
+					
+					inventoryTotal();
 
 				}
 
 			}
 
 			if (e.getSource() == btnRemove) {
-
+				
 				if (movedTable.getSelectedRow() > -1) {
 					int moveIndex = movedTable.convertRowIndexToModel(movedTable.getSelectedRow());
 					Computers com = movedComputers.get(moveIndex);
-
+					com.setRoom("2119");
 					movedComputers.remove(com);
 					movedRows.removeRow(moveIndex);
 					offCampus.add(com);
@@ -721,16 +650,18 @@ public class Inventory {
 							com.getAssetId(), com.getSerialNumber(), com.getiTmember(), com.getRoom() } };
 
 					offCampus.add(com);
-
+					
 					rows2119.addRow(rowData[0]);
 
 					table2119.setModel(rows2119);
+					inventoryTotal();
+			
 
 				} else if (table.getSelectedRow() > -1) {
 
 					int i = table.getSelectedRow();
 					Computers com1 = computers.get(i);
-
+					com1.setRoom("2119");
 					String[][] rowData = new String[][] { { com1.getName(), com1.getArcutecture(), com1.getModel(),
 							com1.getAssetId(), com1.getSerialNumber(), com1.getiTmember(), com1.getRoom() } };
 
@@ -745,6 +676,9 @@ public class Inventory {
 					rows2119.addRow(rowData[0]);
 
 					table2119.setModel(rows2119);
+					
+					inventoryTotal();
+				
 
 				} else {
 
@@ -761,7 +695,7 @@ public class Inventory {
 
 			public int print(Graphics g, PageFormat pf, int page) throws PrinterException {
 
-				if (page > 0) { 
+				if (page > 0) {
 					return NO_SUCH_PAGE;
 				}
 
@@ -793,5 +727,25 @@ public class Inventory {
 
 		}
 
+	}
+
+	public void inventoryTotal() {
+		int size = computers.size();
+		txtTotal = new JTextField();
+		txtTotal.setText(size + "");
+
+		txtTotal.setEditable(false);
+		txtTotal.setBounds(195, 575, 20, 20);
+		mainPanel.add(txtTotal);
+	}
+	
+	public void total2119() {
+		int size = offCampus.size();
+		txtTotal2119 = new JTextField();
+		txtTotal2119.setText(size + "");
+
+		txtTotal2119.setEditable(false);
+		txtTotal2119.setBounds(142, 35, 20, 20);
+		card1.add(txtTotal2119);
 	}
 }
