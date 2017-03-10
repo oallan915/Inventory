@@ -78,13 +78,13 @@ public class Inventory {
 
 	private JButton btnBack;
 
+	private JButton btnClearRow;
+
 	private JPanel card1;
 
 	private JList<String> textArea = new JList<String>();
 
 	private JTable table = new JTable();
-
-	private JTableHeader header = new JTableHeader();
 
 	private JTable movedTable;
 
@@ -104,10 +104,12 @@ public class Inventory {
 
 	private List<Computers> offCampus = new ArrayList<Computers>();
 
+	private List<Computers> done = new ArrayList<Computers>();
+
 	private JLabel lblTotal;
 
 	private JTextField txtTotal;
-	
+
 	private JTextField txtTotal2119;
 
 	private Computers computer;
@@ -230,6 +232,7 @@ public class Inventory {
 			combo1.addItem("SURFACE");
 			combo1.addItem("SHARP");
 			combo1.addItem("LENNOVO");
+			combo1.addItem("TABLET");
 
 			combo2.setBounds(160, 80, 86, 20);
 			mainPanel.add(combo2);
@@ -237,7 +240,8 @@ public class Inventory {
 			combo2.addItem("LAP");
 			combo2.addItem("SURF");
 			combo2.addItem("PROJ");
-			combo2.addItem("OTH");
+			combo2.addItem("PRIN");
+			combo2.addItem("OTHR");
 
 			coName.setBounds(160, 230, 86, 20);
 			mainPanel.add(coName);
@@ -349,6 +353,9 @@ public class Inventory {
 				}
 
 				rows = new DefaultTableModel(rowData, columnNames);
+				/***********************************
+				 * CARD LAYOUT
+				 *********************************************************************************/
 
 				String[][] rowData2119 = new String[offCampus.size()][7];
 
@@ -391,10 +398,18 @@ public class Inventory {
 			btnRemoveCard.setToolTipText("View Assets in 2119 currently.");
 			mainPanel.add(btnRemoveCard);
 
-			JLabel lbltotal2119 = new JLabel("Total Assets in 2119:");
+			JLabel lbltotal2119 = new JLabel("Total Assets in 2119 staging area: ");
+			lbltotal2119.setBounds(20, 600, 200, 50);
 			card1.add(lbltotal2119);
-			lbltotal2119.setBounds(20, 20, 170, 50);
-			
+
+			JLabel lblStagingArea = new JLabel("This is a list of assets that need ");
+			lblStagingArea.setBounds(30, 30, 200, 14);
+			card1.add(lblStagingArea);
+
+			JLabel lblStagingArea_1 = new JLabel("a Asset Transfer Form to be completed.");
+			lblStagingArea_1.setBounds(30, 45, 250, 14);
+			card1.add(lblStagingArea_1);
+
 			btnBack = new JButton("BACK");
 			card1.add(btnBack);
 			btnBack.addActionListener(new ActionListener() {
@@ -405,14 +420,38 @@ public class Inventory {
 				};
 			});
 
-			btnBack.setBounds(400, 10, 86, 30);
+			btnBack.setBounds(380, 10, 86, 30);
 
 			btnPrintRemoved = new JButton("PRINT");
-			btnPrintRemoved.setBounds(500, 10, 86, 30);
+			btnPrintRemoved.setBounds(480, 10, 86, 30);
 			btnPrintRemoved.setToolTipText("Select the asset in the table and click print");
 			card1.add(btnPrintRemoved);
 
 			btnPrintRemoved.addActionListener(new HelloWorldPrinter());
+
+			btnClearRow = new JButton("DONE");
+			btnClearRow.setBounds(580, 10, 86, 30);
+			btnClearRow.setToolTipText("Clears selected asset, Use this when asset transfer form was completed");
+			card1.add(btnClearRow);
+			btnClearRow.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+
+					int item = table2119.getSelectedRow();
+
+					if (item == -1) {
+
+						JOptionPane.showMessageDialog(card1, "Must select an Asset", "Selection Error",
+								JOptionPane.ERROR_MESSAGE);
+					} else {
+						Computers c = offCampus.get(item);
+						offCampus.remove(c);
+						rows2119.removeRow(item);
+						table2119.setModel(rows2119);
+
+						done.add(c);
+					}
+				};
+			});
 
 			JScrollPane scrollBar2119 = new JScrollPane();
 			card1.add(scrollBar2119);
@@ -420,6 +459,7 @@ public class Inventory {
 			scrollBar2119.setViewportView(table2119);
 			scrollBar2119.setBounds(20, 70, 900, 500);
 
+			/*******************************************************************************************************************************/
 			table.setBounds(21, 350, 400, 200);
 			table.setFont(new Font("Arial", Font.BOLD, 12));
 			mainPanel.add(table);
@@ -442,7 +482,7 @@ public class Inventory {
 			scrollBarMove.setAutoscrolls(true);
 			scrollBarMove.setViewportView(movedTable);
 			scrollBarMove.setBounds(550, 330, 400, 200);
-	
+
 			inventoryTotal();
 
 			lblTotal = new JLabel("Total items in inventory: ");
@@ -480,7 +520,6 @@ public class Inventory {
 			remove.put(KeyStroke.getKeyStroke("ENTER"), "pressed");
 			remove.put(KeyStroke.getKeyStroke("released ENTER"), "released");
 
-		
 			total2119();
 		}
 		/* END OF GUI */
@@ -489,16 +528,19 @@ public class Inventory {
 		public void actionPerformed(ActionEvent e) {
 
 			String fileName = "testfiles/Inventory.csv";
+			String backUpFileInv = "testfiles/InventoryBackUp.csv";
 
 			File file = new File("testfiles/Inventory.csv");
 
 			String removeAsset = "testfiles/RemovedAsset.csv";
+			String removeAssetBackUP = "testfiles/removeAssetBackUP.csv";
 
 			File removeAssets = new File("testfiles/RemovedAsset.csv");
 
-			File fCampus = new File("testfiles/2119.csv");
-
 			String removedItems = "testfiles/2119.csv";
+			String removedItemsBackUp = "testfiles/removedItemsBackUp.csv";
+
+			File fCampus = new File("testfiles/2119.csv");
 
 			String name = combo1.getSelectedItem() + "";
 			String arcutecture = combo2.getSelectedItem() + "";
@@ -582,6 +624,12 @@ public class Inventory {
 					dialog.setVisible(true);
 
 					try {
+						InventoryList.writeInventory(backUpFileInv, computers);
+
+						InventoryList.writeInventory(removeAssetBackUP, movedComputers);
+
+						InventoryList.writeInventory(removedItemsBackUp, offCampus);
+
 						InventoryList.writeInventory(fileName, computers);
 
 						InventoryList.writeInventory(removeAsset, movedComputers);
@@ -628,7 +676,7 @@ public class Inventory {
 
 					rows.addRow(rowData[0]);
 					table.setModel(rows);
-					
+
 					inventoryTotal();
 
 				}
@@ -636,7 +684,7 @@ public class Inventory {
 			}
 
 			if (e.getSource() == btnRemove) {
-				
+
 				if (movedTable.getSelectedRow() > -1) {
 					int moveIndex = movedTable.convertRowIndexToModel(movedTable.getSelectedRow());
 					Computers com = movedComputers.get(moveIndex);
@@ -650,12 +698,11 @@ public class Inventory {
 							com.getAssetId(), com.getSerialNumber(), com.getiTmember(), com.getRoom() } };
 
 					offCampus.add(com);
-					
+
 					rows2119.addRow(rowData[0]);
 
 					table2119.setModel(rows2119);
 					inventoryTotal();
-			
 
 				} else if (table.getSelectedRow() > -1) {
 
@@ -676,9 +723,8 @@ public class Inventory {
 					rows2119.addRow(rowData[0]);
 
 					table2119.setModel(rows2119);
-					
+
 					inventoryTotal();
-				
 
 				} else {
 
@@ -738,14 +784,14 @@ public class Inventory {
 		txtTotal.setBounds(195, 575, 20, 20);
 		mainPanel.add(txtTotal);
 	}
-	
+
 	public void total2119() {
 		int size = offCampus.size();
 		txtTotal2119 = new JTextField();
 		txtTotal2119.setText(size + "");
 
 		txtTotal2119.setEditable(false);
-		txtTotal2119.setBounds(142, 35, 20, 20);
+		txtTotal2119.setBounds(212, 615, 20, 20);
 		card1.add(txtTotal2119);
 	}
 }
