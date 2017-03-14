@@ -79,8 +79,12 @@ public class Inventory {
 	private JButton btnBack;
 
 	private JButton btnClearRow;
+	
+	private JButton btnOffCampusItems;
 
 	private JPanel card1;
+	
+	private JPanel assets2119;
 
 	private JList<String> textArea = new JList<String>();
 
@@ -189,6 +193,14 @@ public class Inventory {
 			card1.setLayout(null);
 
 			frame.getContentPane().add(card1);
+			
+			
+			assets2119 = new JPanel();
+			assets2119.setVisible(false);
+			assets2119.setBounds(1000, 500, 1000, 630);
+			assets2119.setLayout(null);
+			
+			frame.getContentPane().add(assets2119);
 
 			JLabel lblComputerName = new JLabel("Machine Name");
 			lblComputerName.setBounds(30, 45, 85, 14);
@@ -331,7 +343,6 @@ public class Inventory {
 					movedData[i][5] = computer.getiTmember();
 					movedData[i][6] = computer.getRoom();
 
-					removeList.addElement(computer.toString());
 
 				}
 
@@ -419,9 +430,19 @@ public class Inventory {
 
 				};
 			});
-
 			btnBack.setBounds(380, 10, 86, 30);
 
+			btnOffCampusItems = new JButton("View Off Campus Items");
+			btnOffCampusItems.setBounds(700, 10, 86, 30);
+			card1.add(btnOffCampusItems);
+			btnOffCampusItems.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					card1.setVisible(false);
+					mainPanel.setVisible(false);
+					assets2119.setVisible(true);
+				}
+			});
+			
 			btnPrintRemoved = new JButton("PRINT");
 			btnPrintRemoved.setBounds(480, 10, 86, 30);
 			btnPrintRemoved.setToolTipText("Select the asset in the table and click print");
